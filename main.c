@@ -1,55 +1,82 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/04 11:21:26 by trupham           #+#    #+#             */
+/*   Updated: 2025/06/04 17:03:27 by trupham          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft/libft.h"
+#include "pipex.h"
 #include <unistd.h>
 
-int main()
+int check_infile(char *infile)
 {
-    int fd1[2];
-    int fd2[2];
-    pid_t p;
+	if (access(infile, R_OK) == 0)
+		return 1;
+	else
+		perror("infile");
+	return 0;
+}
+int check_outfile(char *outfile)
+{
+	if (access(outfile, W_OK) == 0)
+		return 1;
+	else
+		perror("outfile");
+	return 0;
+}
+/* WARN: need to free returned string
+ */
+char *ft_getenv(char **env, char *name)
+{
+	int i = 0;
+	int len = 0;
 
-	if (pipe(fd1) == -1) {
-		fprintf(stderr, "Pipe Failed");
-		return 1;
+	len = ft_strlen(name);
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], name, len) == 0)
+			return ft_substr(env[i], len+1, ft_strlen(env[i]) - len - 1);
+		i++;
 	}
-	if (pipe(fd2) == -1) {
-		fprintf(stderr, "Pipe Failed");
-		return 1;
+	return NULL;
+}
+/* @brief takes a command string and search for binary file in PATH
+ * @params char **env: array of strings containing environment variables
+ * @params char* cmd: ls, cat, etc.
+ * @return char*: the whole path to the command: /usr/bin/cat
+ */
+char *getcmd(char *cmd, char **env)
+{
+	char *path;
+	char **arr;
+	int i = 0;
+
+	path = ft_getenv(env, "PATH");
+	arr = ft_split(path, ':');
+	free(path);
+	while (arr[i])
+	{
+		if (access(arr[i], X_OK) == 0)
+			return arr[i];
+		i++;
 	}
-	p = fork();
-	if (p < 0) {
-		fprintf(stderr, "fork Failed");
-		return 1;
+	return NULL;
+}
+
+int main(int ac, char **av, char **env)
+{
+	char *str;
+	if (ac == 5)
+	{
+		str = ft_getenv(env, "HOME");
+		ft_printf("%s", getcmd("ls", env));
+		free(str);
 	}
-	else if (p > 0) {
-		char input_str[100] = "hello from parent";
-		char parent_str[100];
-		close(fd1[0]);
-		// Write input string and close writing end of first pipe
-		write(fd1[1], input_str, strlen(input_str) + 1);
-		close(fd1[1]);
-		// Wait for child to send a string
-		wait(NULL);
-		close(fd2[1]); // Close writing end of second pipe
-		read(fd2[0], parent_str, 100);
-		printf("parent str: %s\n", parent_str);
-		close(fd2[0]);
-	}
-	// child process
-	else {
-		close(fd1[1]);
-		char parent_str[100];
-		char child_str[100] = "hello from child";
-		read(fd1[0], parent_str, 100);
-		printf("child str: %s\n", parent_str);
-		// Close both reading ends
-		close(fd1[0]);
-		close(fd2[0]);
-		write(fd2[1], child_str, 100);
-		close(fd2[1]);
-		exit(0);
-	}
+	return 0;
 }
