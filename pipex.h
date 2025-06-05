@@ -6,7 +6,7 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:20:14 by trupham           #+#    #+#             */
-/*   Updated: 2025/06/05 16:26:15 by trupham          ###   ########.fr       */
+/*   Updated: 2025/06/05 17:01:33 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 char	*getcmd(char *cmd, char **env);
 int	check_infile(char *infile);
 int	check_outfile(char *outfile);
+char **build_cmd(char *av);
 #endif
 

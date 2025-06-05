@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 16:22:33 by trupham           #+#    #+#             */
-/*   Updated: 2025/06/05 17:02:44 by trupham          ###   ########.fr       */
+/*   Created: 2025/06/05 16:53:03 by trupham           #+#    #+#             */
+/*   Updated: 2025/06/05 17:06:38 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "pipex.h"
-
-int	main(int ac, char **av, char **env)
+/*
+ * @brief: function that takes the argv input from main and build an array of strings
+ * that contain the command name and its arguments
+ * @params: string variable
+ * @return: array of strings
+ */
+char **build_cmd(char *av)
 {
-	char	*cmd;
-
-	if (ac == 5)
-	{
-		cmd = getcmd("xargs", env);
-		fprintf(stderr, "DEBUGPRINT[50]: main.c:89: cmd=%s\n", cmd);
-		free(cmd);
-		char **arr = build_cmd(av[2]);
-		fprintf(stderr, "DEBUGPRINT[51]: main.c:24: arr[0]=%s\n", arr[0]);
-	}
-	return (0);
+	char **temp;
+	char **arr;
+	
+	temp = ft_split(av, ' ');
+	if (!temp)
+		return NULL;
+	return arr;
 }
