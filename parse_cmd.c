@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "pipex.h"
+
 /*
  * @brief: function that takes the argv input from main and build an array of strings
  * that contain the command name and its arguments
@@ -21,10 +21,9 @@
 char **build_cmd(char *av)
 {
 	char **temp;
-	char **arr;
 	
 	temp = ft_split(av, ' ');
 	if (!temp)
 		return NULL;
-	return arr;
+	return temp;
 }

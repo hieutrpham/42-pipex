@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <assert.h>
 
 int	main(int ac, char **av, char **env)
 {
@@ -19,10 +20,14 @@ int	main(int ac, char **av, char **env)
 	if (ac == 5)
 	{
 		cmd = getcmd("xargs", env);
-		fprintf(stderr, "DEBUGPRINT[50]: main.c:89: cmd=%s\n", cmd);
+		// fprintf(stderr, "DEBUGPRINT[50]: main.c:89: cmd=%s\n", cmd);
 		free(cmd);
 		char **arr = build_cmd(av[2]);
-		fprintf(stderr, "DEBUGPRINT[51]: main.c:24: arr[0]=%s\n", arr[0]);
+		int i = 0;
+		char *cmd = getcmd(arr[0], env);
+		// fprintf(stderr, "DEBUGPRINT[34]: main.c:25: cmd=%s\n", cmd);
+		execve(cmd, arr, NULL);
+		perror("execve");
 	}
 	return (0);
 }
