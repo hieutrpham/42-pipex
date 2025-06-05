@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/* @brief: function that find the first character c in string s
+ * @params: char *s, int c
+ * @return: pointer to the char if found. if not return NULL
+ */
 char	*ft_strchr(const char *s, int c)
 {
 	int	i;

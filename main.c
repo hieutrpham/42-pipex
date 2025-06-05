@@ -46,6 +46,15 @@ char *ft_getenv(char **env, char *name)
 	}
 	return NULL;
 }
+
+void free_split(char **arr)
+{
+	int i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
 /* @brief takes a command string and search for binary file in PATH
  * @params char **env: array of strings containing environment variables
  * @params char* cmd: ls, cat, etc.
@@ -56,27 +65,42 @@ char *getcmd(char *cmd, char **env)
 	char *path;
 	char **arr;
 	int i = 0;
+	char *tmp_cmd;
+	char *full_cmd;
 
 	path = ft_getenv(env, "PATH");
 	arr = ft_split(path, ':');
+	if (!arr)
+		return (free(path), NULL);
 	free(path);
 	while (arr[i])
 	{
-		if (access(arr[i], X_OK) == 0)
-			return arr[i];
+		tmp_cmd = ft_strjoin(arr[i], "/");
+		if (!tmp_cmd)
+			return NULL;
+		full_cmd = ft_strjoin(tmp_cmd, cmd);
+		if (!full_cmd)
+			return (free(tmp_cmd), NULL);
+		free(tmp_cmd);
+		if (access(full_cmd, X_OK) == 0)
+			return (free_split(arr), full_cmd);
+		else
+			free(full_cmd);
 		i++;
 	}
+	free_split(arr);
 	return NULL;
 }
 
 int main(int ac, char **av, char **env)
 {
-	char *str;
+	char *cmd;
+
 	if (ac == 5)
 	{
-		str = ft_getenv(env, "HOME");
-		ft_printf("%s", getcmd("ls", env));
-		free(str);
+		cmd = getcmd("awk", env);
+		fprintf(stderr, "DEBUGPRINT[50]: main.c:89: cmd=%s\n", cmd);
+		free(cmd);
 	}
 	return 0;
 }
