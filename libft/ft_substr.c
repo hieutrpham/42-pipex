@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
+/* @brief: allocate and return a substring out of the original string
+ * @params: original string, position of the start, length of the substring
+ */
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	s_len;

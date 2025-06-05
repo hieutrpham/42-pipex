@@ -12,89 +12,110 @@
 
 #include "libft/libft.h"
 #include "pipex.h"
-#include <unistd.h>
 
-int check_infile(char *infile)
+int	check_infile(char *infile)
 {
 	if (access(infile, R_OK) == 0)
-		return 1;
+		return (1);
 	else
 		perror("infile");
-	return 0;
+	return (0);
 }
-int check_outfile(char *outfile)
+
+int	check_outfile(char *outfile)
 {
 	if (access(outfile, W_OK) == 0)
-		return 1;
+		return (1);
 	else
 		perror("outfile");
-	return 0;
+	return (0);
 }
-/* WARN: need to free returned string
- */
-char *ft_getenv(char **env, char *name)
-{
-	int i = 0;
-	int len = 0;
 
+/*
+ * @brief: function that find the environment variable given it's name.
+ * @params: env variable passed in from main and the name of the var
+ * @return: the string containing the environment variable. eg. "PATH=usr/bin:usr/.local/bin"
+ */
+char	*ft_getenv(char **env, char *name)
+{
+	int	i;
+	int	len;
+
+	i = 0;
 	len = ft_strlen(name);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], name, len) == 0)
-			return ft_substr(env[i], len+1, ft_strlen(env[i]) - len - 1);
+			return (ft_substr(env[i], len + 1, ft_strlen(env[i]) - len - 1));
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
-void free_split(char **arr)
+void	free_split(char **arr)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (arr[i])
 		free(arr[i++]);
 	free(arr);
 }
 
-/* @brief takes a command string and search for binary file in PATH
- * @params char **env: array of strings containing environment variables
- * @params char* cmd: ls, cat, etc.
- * @return char*: the whole path to the command: /usr/bin/cat
- */
-char *getcmd(char *cmd, char **env)
+char *norm_getcmd(char **arr, char *cmd)
 {
-	char *path;
-	char **arr;
-	int i = 0;
-	char *tmp_cmd;
-	char *full_cmd;
+	int i;
+	char	*tmp_cmd;
+	char	*full_cmd;
 
-	path = ft_getenv(env, "PATH");
-	arr = ft_split(path, ':');
-	if (!arr)
-		return (free(path), NULL);
-	free(path);
+	i = 0;
 	while (arr[i])
 	{
 		tmp_cmd = ft_strjoin(arr[i], "/");
 		if (!tmp_cmd)
-			return NULL;
+			return (NULL);
 		full_cmd = ft_strjoin(tmp_cmd, cmd);
 		if (!full_cmd)
 			return (free(tmp_cmd), NULL);
 		free(tmp_cmd);
 		if (access(full_cmd, X_OK) == 0)
-			return (free_split(arr), full_cmd);
+			return (full_cmd);
 		else
 			free(full_cmd);
 		i++;
 	}
-	free_split(arr);
 	return NULL;
 }
-
-int main(int ac, char **av, char **env)
+/*
+ * @brief: takes a command string and search for binary file in PATH
+ * @params: name of the command eg: ls, cat, etc.
+ * @params: array of strings containing environment variables
+ * @return: the whole path to the command: /usr/bin/cat
+ */
+char	*getcmd(char *cmd, char **env)
 {
-	char *cmd;
+	char	*path;
+	char	**arr;
+	int		i;
+	char	*full_cmd;
+
+	i = 0;
+	path = ft_getenv(env, "PATH");
+	if (!path)
+		return NULL;
+	arr = ft_split(path, ':');
+	if (!arr)
+		return (free(path), NULL);
+	free(path);
+	full_cmd = norm_getcmd(arr, cmd);
+	if (!full_cmd)
+		return (free(full_cmd), NULL);
+	return (free_split(arr), full_cmd);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	char	*cmd;
 
 	if (ac == 5)
 	{
@@ -102,5 +123,5 @@ int main(int ac, char **av, char **env)
 		fprintf(stderr, "DEBUGPRINT[50]: main.c:89: cmd=%s\n", cmd);
 		free(cmd);
 	}
-	return 0;
+	return (0);
 }
