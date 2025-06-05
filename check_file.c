@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   check_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 11:20:14 by trupham           #+#    #+#             */
-/*   Updated: 2025/06/05 16:26:15 by trupham          ###   ########.fr       */
+/*   Created: 2025/06/05 16:28:14 by trupham           #+#    #+#             */
+/*   Updated: 2025/06/05 16:28:23 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
+#include "pipex.h"
 
-#define PIPEX_H
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include "libft/libft.h"
-#include <fcntl.h>
+int	check_infile(char *infile)
+{
+	if (access(infile, R_OK) == 0)
+		return (1);
+	else
+		perror("infile");
+	return (0);
+}
 
-char	*getcmd(char *cmd, char **env);
-int	check_infile(char *infile);
-int	check_outfile(char *outfile);
-#endif
+int	check_outfile(char *outfile)
+{
+	if (access(outfile, W_OK) == 0)
+		return (1);
+	else
+		perror("outfile");
+	return (0);
+}
 
