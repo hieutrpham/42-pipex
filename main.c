@@ -10,8 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "pipex.h"
-#include <assert.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+/* TODO: open infile. dup2 the fd to stdin. cmd1 will read from stdin now which is the fd
+ * a function that takes fd1, dup2
+ * check if the command includes '/'
+ */
 
 int	main(int ac, char **av, char **env)
 {
@@ -19,15 +27,33 @@ int	main(int ac, char **av, char **env)
 
 	if (ac == 5)
 	{
-		cmd = getcmd("xargs", env);
-		// fprintf(stderr, "DEBUGPRINT[50]: main.c:89: cmd=%s\n", cmd);
-		free(cmd);
-		char **arr = build_cmd(av[2]);
-		int i = 0;
-		char *cmd = getcmd(arr[0], env);
-		// fprintf(stderr, "DEBUGPRINT[34]: main.c:25: cmd=%s\n", cmd);
-		execve(cmd, arr, NULL);
-		perror("execve");
+		if (!check_infile(av[1]))
+		{
+			perror("infile");
+			exit(1);
+		}
+		int fd1 = open(av[1], O_RDONLY);
+		pid_t child = fork();
+		if (child == -1)
+		{
+			perror("fork");
+			exit(1);
+		}
+		if (child == 0)
+		{
+			close(0);
+			dup2(fd1, 0);
+			char **cmd = build_exec_argv(av[2]);
+			char *bin = get_binary_path(cmd[0], env);
+			execve(bin, cmd, NULL);
+			perror("execve");
+		}
+		else
+		{
+			close(0);
+			close(1);
+			exit(0);
+		}
 	}
 	return (0);
 }

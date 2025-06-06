@@ -73,7 +73,7 @@ static char *norm_getcmd(char **arr, char *cmd)
  * @params: array of strings containing environment variables
  * @return: the whole path to the command: /usr/bin/cat
  */
-char	*getcmd(char *cmd, char **env)
+char	*get_binary_path(char *cmd, char **env)
 {
 	char	*path;
 	char	**arr;

@@ -22,9 +22,9 @@
 #include "libft/libft.h"
 #include <fcntl.h>
 
-char	*getcmd(char *cmd, char **env);
+char	*get_binary_path(char *cmd, char **env);
 int	check_infile(char *infile);
 int	check_outfile(char *outfile);
-char **build_cmd(char *av);
+char **build_exec_argv(char *av);
 #endif
 

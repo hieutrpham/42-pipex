@@ -1,2 +1,2 @@
 # 42-pipex
-Building a pipe
+Building a pipeline in C

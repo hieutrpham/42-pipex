@@ -1,2 +1,3 @@
 all:
-	cc *.c *.h libft/libft.a -g && ./a.out infile "ls -l -a" "xargs du -h" outfile
+	@cc *.c *.h libft/libft.a -g
+	@./a.out README.md "cat" "xargs du -h" outfile
