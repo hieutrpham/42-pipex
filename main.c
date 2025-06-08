@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <fcntl.h>
 #include <sys/types.h>
 
 /* TODO: open infile. dup2 the fd to stdin. cmd1 will read from stdin now which is the fd
@@ -24,10 +25,7 @@
 pid_t run_process1(char **av, char **env, int *pips)
 {
 	if (!check_infile(av[1]))
-	{
-		perror("infile");
 		exit(EXIT_FAILURE);
-	}
 	int fd1 = open(av[1], O_RDONLY);
 	pid_t child1 = fork();
 	if (child1 == -1)
@@ -39,7 +37,9 @@ pid_t run_process1(char **av, char **env, int *pips)
 	{
 		close(pips[0]);
 		dup2(fd1, 0);
+		close(fd1);
 		dup2(pips[1], 1);
+		close(pips[1]);
 		char **cmd = build_exec_argv(av[2]);
 		char *bin = get_binary_path(cmd[0], env);
 		execve(bin, cmd, NULL);
@@ -52,6 +52,9 @@ pid_t run_process1(char **av, char **env, int *pips)
  */
 pid_t run_process2(char **av, char **env, int *pips)
 {
+	if (!check_outfile(av[4]))
+		exit(EXIT_FAILURE);
+	int fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC);
 	pid_t child2 = fork();
 	if (child2 == -1)
 	{
@@ -62,6 +65,9 @@ pid_t run_process2(char **av, char **env, int *pips)
 	{
 		close(pips[1]);
 		dup2(pips[0], 0);
+		dup2(fd, 1);
+		close(fd);
+		close(pips[0]);
 		char **cmd = build_exec_argv(av[3]);
 		char *bin = get_binary_path(cmd[0], env);
 		execve(bin, cmd, NULL);
@@ -80,10 +86,10 @@ int	main(int ac, char **av, char **env)
 		if (pipe(pips) < 0)
 			perror("pipe");
 		pid_t child1 = run_process1(av, env, pips);
-		close(pips[1]);
 		pid_t child2 = run_process2(av, env, pips);
-		waitpid(child1, &status, 0);
+		close(pips[1]);
 		close(pips[0]);
+		waitpid(child1, &status, 0);
 		waitpid(child2, &status, 0);
 		exit(EXIT_SUCCESS);
 	}
