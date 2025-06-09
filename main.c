@@ -14,19 +14,16 @@
 #include <fcntl.h>
 #include <sys/types.h>
 
-/* TODO: open infile. dup2 the fd to stdin. cmd1 will read from stdin now which is the fd
- * a function that takes fd1, dup2
+/*
  * check if the command includes '/'
  */
-
-/*
- * child1 process that read from infile
-*/
 pid_t run_process1(char **av, char **env, int *pips)
 {
+	int fd1;
+
 	if (!check_infile(av[1]))
 		exit(EXIT_FAILURE);
-	int fd1 = open(av[1], O_RDONLY);
+	fd1 = open(av[1], O_RDONLY);
 	pid_t child1 = fork();
 	if (child1 == -1)
 	{
@@ -49,13 +46,15 @@ pid_t run_process1(char **av, char **env, int *pips)
 }
 
 /* child2 process that read from child1 and give output to outfile
+ * TODO:need to handle file permission
  */
 pid_t run_process2(char **av, char **env, int *pips)
 {
-	if (!check_outfile(av[4]))
-		exit(EXIT_FAILURE);
-	int fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC);
-	pid_t child2 = fork();
+	int fd;
+	pid_t child2;
+
+	fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	child2 = fork();
 	if (child2 == -1)
 	{
 		perror("fork");

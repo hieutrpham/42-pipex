@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+bin="./a.out"
+infile="main.c"
+outfile="outfile"
+
+#test 1
+echo "=======test1========"
+$bin $infile "cat" "wc -l" $outfile
+cat $outfile; rm $outfile
+
+#test 2
+echo "=======test2========"
+$bin $infile "cat" "wc -l -w " $outfile
+cat $outfile;rm $outfile
+
+#test 3
+echo "=======test3========"
+touch test3.txt
+test3="test3.txt"
+$bin $infile "cat" "cat" $test3
+cat $test3; rm $test3
