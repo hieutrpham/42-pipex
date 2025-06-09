@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 bin="./a.out"
-infile="main.c"
+infile="README.md"
 outfile="outfile"
 
 #test 1
@@ -12,7 +12,7 @@ cat $outfile; rm $outfile
 #test 2
 echo "=======test2========"
 $bin $infile "cat" "wc -l -w " $outfile
-cat $outfile;rm $outfile
+cat $outfile; rm $outfile
 
 #test 3
 echo "=======test3========"
