@@ -1,15 +1,13 @@
-     1	.$
-     2	..$
-     3	includes$
-     4	src$
-     5	.gitignore$
-     6	42_pipex_tester$
-     7	compile_commands.json$
-     8	tests$
-     9	Makefile$
-    10	README.md$
-    11	.git$
-    12	libft$
-    13	.cache$
-    14	obj$
-    15	pipex$
+     1	total 68$
+     2	-rwxr-xr-x  1 hpham hpham 21424 Jun 10 21:17 pipex$
+     3	drwxr-xr-x  2 hpham hpham  4096 Jun 10 21:17 tests$
+     4	-rw-r--r--  1 hpham hpham   481 Jun 10 19:20 .gitignore$
+     5	drwxr-xr-x  2 hpham hpham  4096 Jun 10 21:17 obj$
+     6	drwx------ 20 hpham hpham  4096 Jun 10 18:11 ..$
+     7	drwxr-xr-x  2 hpham hpham  4096 Jun  9 21:21 includes$
+     8	drwxr-xr-x  2 hpham hpham  4096 Jun 10 20:47 src$
+     9	-rw-r--r--  1 hpham hpham    36 Jun  6 16:59 README.md$
+    10	drwxr-xr-x  7 hpham hpham  4096 Jun 10 19:20 .git$
+    11	drwxr-xr-x  8 hpham hpham  4096 Jun 10 21:17 .$
+    12	-rw-r--r--  1 hpham hpham   720 Jun 10 19:20 Makefile$
+    13	drwxr-xr-x  2 hpham hpham  4096 Jun  5 21:03 libft$

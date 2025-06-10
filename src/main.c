@@ -54,7 +54,7 @@ pid_t	run_process1(char **av, char **env, int *pips)
 		close(pips[1]);
 		cmd = build_exec_argv(av[2]);
 		bin = get_binary_path(cmd[0], env);
-		execve(bin, cmd, NULL);
+		execve(bin, cmd, env);
 		perror("execve");
 	}
 	return (child1);
@@ -80,7 +80,7 @@ pid_t	run_process2(char **av, char **env, int *pips)
 		close(pips[0]);
 		cmd = build_exec_argv(av[3]);
 		bin = get_binary_path(cmd[0], env);
-		execve(bin, cmd, NULL);
+		execve(bin, cmd, env);
 		perror("execve");
 	}
 	return (child2);
