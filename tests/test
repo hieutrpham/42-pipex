@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-bin="./a.out"
+bin="./pipex"
 infile="${PWD}/README.md"
 expected_outfile="${PWD}/tests/expected_outfile"
 outfile="${PWD}/tests/outfile"
@@ -35,6 +35,7 @@ run_test() {
 		print_result "ok"
 	else
 		print_result "ko"
+		diff -y $expected_outfile $outfile
 	fi
 }
 
@@ -51,9 +52,9 @@ run_test
 
 #test 2
 print_title "test2"
-print_test "test: < infile cat | wc -l -w > outfile"
-< $infile cat | wc -l -w > $expected_outfile
-$bin $infile "cat" "wc -l -w " $outfile
+print_test "test: < infile ls -la | cat -e > outfile"
+< $infile ls -la | cat -e > $expected_outfile
+$bin $infile "ls -la" "cat -e" $outfile
 run_test 
 
 #test 3
@@ -70,4 +71,20 @@ print_test "test: < infile /usr/bin/cat | cat > outfile"
 cleanup
 < $infile /usr/bin/cat | cat > $expected_outfile
 $bin $infile "/usr/bin/cat" "cat" $outfile
+run_test
+
+#test 5
+print_title "test5"
+print_test "test: < infile ls -l -a | cat -e -n > outfile"
+cleanup
+< $infile ls -l -a | cat -e -n > $expected_outfile
+$bin $infile "ls -l -a" "cat -e -n" $outfile
+run_test
+
+#test 6
+print_title "test6"
+print_test "test: < infile ls -l -a -f | cat -e -n > outfile"
+cleanup
+< $infile ls -l -a -f | cat -e -n > $expected_outfile
+$bin $infile "ls -l -a -f" "cat -e -n" $outfile
 run_test

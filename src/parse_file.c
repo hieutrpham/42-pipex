@@ -15,7 +15,8 @@
 /*
  * @brief: function that find the environment variable given it's name.
  * @params: env variable passed in from main and the name of the var
- * @return: the string containing the environment variable. eg. "PATH=usr/bin:usr/.local/bin"
+
+	* @return: the string containing the environment variable. eg. "PATH=usr/bin:usr/.local/bin"
  */
 static char	*ft_getenv(char **env, char *name)
 {
@@ -43,9 +44,9 @@ static void	free_split(char **arr)
 	free(arr);
 }
 
-static char *norm_getcmd(char **arr, char *cmd)
+static char	*norm_getcmd(char **arr, char *cmd)
 {
-	int i;
+	int		i;
 	char	*tmp_cmd;
 	char	*full_cmd;
 
@@ -65,7 +66,7 @@ static char *norm_getcmd(char **arr, char *cmd)
 			free(full_cmd);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 /*
  * @brief: takes a command string and search for binary file in PATH
@@ -83,7 +84,7 @@ char	*get_binary_path(char *cmd, char **env)
 		return (cmd);
 	path = ft_getenv(env, "PATH");
 	if (!path)
-		return NULL;
+		return (NULL);
 	arr = ft_split(path, ':');
 	if (!arr)
 		return (free(path), NULL);

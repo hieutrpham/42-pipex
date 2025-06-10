@@ -1,8 +1,9 @@
-*Tester
+*tester
 ft_printf_tester
 *.vim
 *.json
 .cache
+pipex
 # Prerequisites
 *.d
 

@@ -29,4 +29,3 @@ int	check_outfile(char *outfile)
 		perror("outfile");
 	return (0);
 }
-

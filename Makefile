@@ -1,5 +1,5 @@
 CC = cc -Wall -Werror -Wextra
-NAME = a.out
+NAME = pipex
 SRC_PATH = src/
 OBJ_PATH = obj/
 INCLUDE = -I.
