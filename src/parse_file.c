@@ -77,10 +77,10 @@ char	*get_binary_path(char *cmd, char **env)
 {
 	char	*path;
 	char	**arr;
-	int		i;
 	char	*full_cmd;
 
-	i = 0;
+	if (ft_strchr(cmd, '/'))
+		return (cmd);
 	path = ft_getenv(env, "PATH");
 	if (!path)
 		return NULL;

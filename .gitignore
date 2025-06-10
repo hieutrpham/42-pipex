@@ -2,6 +2,7 @@
 ft_printf_tester
 *.vim
 *.json
+.cache
 # Prerequisites
 *.d
 

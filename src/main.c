@@ -14,9 +14,6 @@
 #include <fcntl.h>
 #include <sys/types.h>
 
-/*
- * check if the command includes '/'
- */
 pid_t run_process1(char **av, char **env, int *pips)
 {
 	int fd1;

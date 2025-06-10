@@ -1,22 +1,73 @@
 #!/usr/bin/env bash
 
 bin="./a.out"
-infile="README.md"
-outfile="outfile"
+infile="${PWD}/README.md"
+expected_outfile="${PWD}/tests/expected_outfile"
+outfile="${PWD}/tests/outfile"
+
+NC="\033[0m"
+CYAN="\033[36m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+
+print_title() {
+	printf "${CYAN}=======$1========${NC}"
+	echo
+}
+
+print_test() {
+	printf "${YELLOW}$1${NC}"
+	echo
+}
+
+print_result() {
+	case $1 in
+		"ok") printf "${GREEN}OK!${NC}";;
+		"ko") printf "${RED}KO!${NC}";;
+	esac
+	echo
+}
+
+run_test() {
+	if cmp -s $expected_outfile $outfile 
+	then
+		print_result "ok"
+	else
+		print_result "ko"
+	fi
+}
+
+cleanup() {
+	rm $expected_outfile $outfile
+}
 
 #test 1
-echo "=======test1========"
-$bin $infile "cat" "wc -l" $outfile
-cat $outfile; rm $outfile
+print_title "test1"
+print_test "test: < infile cat | wc -l > outfile"
+< $infile cat | wc -w > $expected_outfile
+$bin $infile "cat" "wc -w" $outfile
+run_test
 
 #test 2
-echo "=======test2========"
+print_title "test2"
+print_test "test: < infile cat | wc -l -w > outfile"
+< $infile cat | wc -l -w > $expected_outfile
 $bin $infile "cat" "wc -l -w " $outfile
-cat $outfile; rm $outfile
+run_test 
 
 #test 3
-echo "=======test3========"
-touch test3.txt
-test3="test3.txt"
-$bin $infile "cat" "cat" $test3
-cat $test3; rm $test3
+print_title "test3"
+print_test "test: < infile cat | cat > outfile"
+cleanup
+< $infile cat | cat > $expected_outfile
+$bin $infile "cat" "cat" $outfile
+run_test
+
+#test 4
+print_title "test4"
+print_test "test: < infile /usr/bin/cat | cat > outfile"
+cleanup
+< $infile /usr/bin/cat | cat > $expected_outfile
+$bin $infile "/usr/bin/cat" "cat" $outfile
+run_test

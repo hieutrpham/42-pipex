@@ -1,5 +1,5 @@
 CC = cc -Wall -Werror -Wextra
-NAME = pipex
+NAME = a.out
 SRC_PATH = src/
 OBJ_PATH = obj/
 INCLUDE = -I.
@@ -28,7 +28,7 @@ $(NAME): $(OBJS)
 libft:
 	make -C $(LIBFT_PATH)
 
-test:
+test: $(NAME)
 	$(TEST_PATH)test
 
 clean:
