@@ -19,7 +19,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "libft/libft.h"
+#include "../libft/libft.h"
 #include <fcntl.h>
 
 char	*get_binary_path(char *cmd, char **env);
