@@ -77,7 +77,6 @@ pid_t run_process2(char **av, char **env, int *pips)
 
 int	main(int ac, char **av, char **env)
 {
-	char	*cmd;
 	int status;
 	int pips[2];
 	if (ac == 5)
