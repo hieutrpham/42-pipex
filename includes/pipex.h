@@ -26,5 +26,6 @@ char	*get_binary_path(char *cmd, char **env);
 int	check_infile(char *infile);
 int	check_outfile(char *outfile);
 char **build_exec_argv(char *av);
+void	free_split(char **arr);
 #endif
 

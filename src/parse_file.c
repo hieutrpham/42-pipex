@@ -34,7 +34,7 @@ static char	*ft_getenv(char **env, char *name)
 	return (NULL);
 }
 
-static void	free_split(char **arr)
+void	free_split(char **arr)
 {
 	int	i;
 
