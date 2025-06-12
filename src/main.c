@@ -6,7 +6,7 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 16:22:33 by trupham           #+#    #+#             */
-/*   Updated: 2025/06/12 16:41:43 by trupham          ###   ########.fr       */
+/*   Updated: 2025/06/12 17:27:33 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	prepare_fd(int *pips, int fd, int idx)
 	{
 		close(pips[0]);
 		if (dup2(fd, 0) < 0)
-			exit_error("dup2");
+			exit_error();
 		if (dup2(pips[1], 1) < 0)
-			exit_error("dup2");
+			exit_error();
 		close(fd);
 		close(pips[1]);
 	}
@@ -28,9 +28,9 @@ void	prepare_fd(int *pips, int fd, int idx)
 	{
 		close(pips[1]);
 		if (dup2(fd, 1) < 0)
-			exit_error("dup2");
+			exit_error();
 		if (dup2(pips[0], 0) < 0)
-			exit_error("dup2");
+			exit_error();
 		close(fd);
 		close(pips[0]);
 	}
@@ -47,19 +47,18 @@ pid_t	run_process1(char **av, char **env, int *pips)
 		return (1);
 	child1 = fork();
 	if (child1 == -1)
-		exit_error("fork");
+		exit_error();
 	if (child1 == 0)
 	{
 		fd = open(av[1], O_RDONLY);
 		if (fd < 0)
-			exit_error("infile");
+			exit_error();
 		prepare_fd(pips, fd, 1);
 		cmd = build_exec_argv(av[2]);
 		bin = get_binary_path(cmd[0], env);
 		if (!bin)
 			exit_free(cmd, bin, 127);
 		execve(bin, cmd, env);
-		perror("DEBUG: execve");
 		exit_free(cmd, bin, 1);
 	}
 	return (child1);
@@ -74,19 +73,18 @@ pid_t	run_process2(char **av, char **env, int *pips)
 
 	child2 = fork();
 	if (child2 == -1)
-		exit_error("fork");
+		exit_error();
 	if (child2 == 0)
 	{
 		fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
-			exit_error("outfile");
+			exit_error();
 		prepare_fd(pips, fd, 0);
 		cmd = build_exec_argv(av[3]);
 		bin = get_binary_path(cmd[0], env);
 		if (!bin)
 			exit_free(cmd, bin, 127);
 		execve(bin, cmd, env);
-		perror("execve");
 		exit_free(cmd, bin, 1);
 	}
 	return (child2);
@@ -102,7 +100,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 5)
 		return (1);
 	if (pipe(pips) < 0)
-		exit_error("pipe");
+		exit_error();
 	child1 = run_process1(av, env, pips);
 	child2 = run_process2(av, env, pips);
 	close(pips[0]);
