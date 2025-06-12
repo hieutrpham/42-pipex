@@ -7,6 +7,9 @@ LIBFT_PATH = ./libft/
 LIBFT = $(LIBFT_PATH)libft.a
 TEST_PATH = tests/
 
+GREEN    := \033[32m
+RESET    := \033[0m
+
 SRC = main.c \
 	  parser.c \
 	  utils.c \
@@ -16,14 +19,17 @@ SRCS = $(addprefix $(SRC_PATH), $(SRC))
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))
 
-all: $(LIBFT) $(NAME)
+all: $(OBJ_PATH) $(LIBFT) $(NAME)
+
+$(OBJ_PATH):
+	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	mkdir -p $(OBJ_PATH)
-	$(CC) -c $< -o $@
+	@$(CC) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LIBFT) $(INCLUDE)
+	@$(CC) $(OBJS) -o $@ $(LIBFT) $(INCLUDE)
+	@printf "$(GREEN)$(NAME) created successfully!$(RESET)\n"
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
