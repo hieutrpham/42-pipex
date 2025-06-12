@@ -4,28 +4,28 @@ SRC_PATH = src/
 OBJ_PATH = obj/
 INCLUDE = -I.
 LIBFT_PATH = ./libft/
+LIBFT = $(LIBFT_PATH)libft.a
 TEST_PATH = tests/
 
-SRC = check_file.c  \
-	  main.c \
-	  parse_cmd.c \
-	  parse_file.c \
+SRC = main.c \
+	  parser.c \
+	  utils.c \
 
 SRCS = $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))
 
-all: $(NAME) libft
+all: $(LIBFT) $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LIBFT_PATH)libft.a $(INCLUDE)
+	$(CC) $(OBJS) -o $@ $(LIBFT) $(INCLUDE)
 
-libft:
+$(LIBFT):
 	make -C $(LIBFT_PATH)
 
 test: $(NAME)
@@ -33,9 +33,11 @@ test: $(NAME)
 
 clean:
 	rm -rf $(OBJ_PATH)
+	make -C $(LIBFT_PATH) clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFT_PATH) fclean
 
 re: fclean all
 
