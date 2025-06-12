@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_file.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 16:28:14 by trupham           #+#    #+#             */
-/*   Updated: 2025/06/05 16:28:23 by trupham          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:41:34 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	exit_error(char *err)
 
 void	exit_free(char **cmd, char *bin, int status)
 {
+	perror("command");
 	free_split(cmd);
 	free(bin);
 	exit(status);

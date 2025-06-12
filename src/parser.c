@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_file.c                                       :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:21:26 by trupham           #+#    #+#             */
-/*   Updated: 2025/06/05 16:28:45 by trupham          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:43:09 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	free_split(char **arr)
 	free(arr);
 }
 
-static char	*norm_getcmd(char **arr, char *cmd)
+static char	*get_full_cmd(char **arr, char *cmd)
 {
 	int		i;
 	char	*tmp_cmd;
@@ -90,7 +90,7 @@ char	*get_binary_path(char *cmd, char **env)
 	if (!arr)
 		return (free(path), NULL);
 	free(path);
-	full_cmd = norm_getcmd(arr, cmd);
+	full_cmd = get_full_cmd(arr, cmd);
 	if (!full_cmd)
 		return (free_split(arr), free(full_cmd), NULL);
 	return (free_split(arr), full_cmd);
