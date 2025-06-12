@@ -13,10 +13,10 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdarg.h>
 # include <stdint.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdarg.h>
 
 typedef struct s_list
 {
@@ -81,18 +81,18 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 #  define MAX_FD 1024
 # endif
 
-int		has_nl(const char *str);
-char	*gnl_strjoin(char *s1, char *s2);
-char	*get_next_line(int fd);
+int					has_nl(const char *str);
+char				*gnl_strjoin(char *s1, char *s2);
+char				*get_next_line(int fd);
 
 /* ft_printf */
-int	ft_printf(const char *str, ...);
-int	ft_putchar(int c);
-int	ft_putstr(const char *str);
-int	ft_putuint(unsigned int n);
-int	ft_putint(int n);
-int	ft_puthex(unsigned long n, char c);
-int	ft_putptr(void *ptr);
-int	ft_ulen(unsigned int n);
-int	ft_ilen(int n);
+int					ft_printf(const char *str, ...);
+int					ft_putchar(int c);
+int					ft_putstr(const char *str);
+int					ft_putuint(unsigned int n);
+int					ft_putint(int n);
+int					ft_puthex(unsigned long n, char c);
+int					ft_putptr(void *ptr);
+int					ft_ulen(unsigned int n);
+int					ft_ilen(int n);
 #endif

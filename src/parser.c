@@ -13,11 +13,11 @@
 #include "../includes/pipex.h"
 
 /*
- * @brief: function that find the environment variable given it's name.
- * @params: env variable passed in from main and the name of the var
-
-	* @return: the string containing the environment variable. eg. "PATH=usr/bin:usr/.local/bin"
- */
+* @brief: function that find the environment variable given it's name.
+* @params: env variable passed in from main and the name of the var
+* @return: the string containing the environment variable
+* eg. "PATH=usr/bin:usr/.local/bin"
+*/
 static char	*ft_getenv(char **env, char *name)
 {
 	int	i;
@@ -74,6 +74,7 @@ static char	*norm_getcmd(char **arr, char *cmd)
  * @params: array of strings containing environment variables
  * @return: the whole path to the command: /usr/bin/cat
  */
+
 char	*get_binary_path(char *cmd, char **env)
 {
 	char	*path;
@@ -91,6 +92,23 @@ char	*get_binary_path(char *cmd, char **env)
 	free(path);
 	full_cmd = norm_getcmd(arr, cmd);
 	if (!full_cmd)
-		return (free(full_cmd), NULL);
+		return (free_split(arr), free(full_cmd), NULL);
 	return (free_split(arr), full_cmd);
+}
+
+/*
+* @brief: function that takes the argv input 
+* from main and build an array of strings
+* that contain the command name and its arguments
+* @params: string variable
+* @return: array of strings eg: {"ls", "-la", NULL}
+*/
+char	**build_exec_argv(char *av)
+{
+	char	**temp;
+
+	temp = ft_split(av, ' ');
+	if (!temp)
+		return (NULL);
+	return (temp);
 }

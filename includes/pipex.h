@@ -12,20 +12,20 @@
 
 #ifndef PIPEX_H
 
-#define PIPEX_H
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include "../libft/libft.h"
-#include <fcntl.h>
+# define PIPEX_H
+# include "../libft/libft.h"
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 char	*get_binary_path(char *cmd, char **env);
-int	check_infile(char *infile);
-int	check_outfile(char *outfile);
-char **build_exec_argv(char *av);
+void	exit_error(char *err);
+int		check_infile(char *infile);
+char	**build_exec_argv(char *av);
 void	free_split(char **arr);
+void	exit_free(char **cmd, char *bin, int status);
 #endif
-
