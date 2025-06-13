@@ -1,8 +1,8 @@
-CC = cc -Wall -Werror -Wextra
+CC = cc -Wall -Werror -Wextra -MMD -MP
 NAME = pipex
 SRC_PATH = src/
 OBJ_PATH = obj/
-INCLUDE = -I.
+INCLUDE = -I. -Iincludes/
 LIBFT_PATH = ./libft/
 LIBFT = $(LIBFT_PATH)libft.a
 TEST_PATH = tests/
@@ -18,6 +18,7 @@ SRCS = $(addprefix $(SRC_PATH), $(SRC))
 
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))
+DEP = $(addprefix $(OBJ_PATH), $(SRC:.c=.d))
 
 all: $(OBJ_PATH) $(LIBFT) $(NAME)
 
@@ -25,10 +26,10 @@ $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
-	@$(CC) -c $< -o $@
+	@$(CC) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) -o $@ $(LIBFT) $(INCLUDE)
+	@$(CC) $^ -o $@ $(LIBFT)
 	@printf "$(GREEN)$(NAME) created successfully!$(RESET)\n"
 
 $(LIBFT):
@@ -38,7 +39,7 @@ test: all
 	$(TEST_PATH)test
 
 clean:
-	rm -rf $(OBJ_PATH)
+	rm -rf $(OBJ_PATH) $(DEP)
 	make -C $(LIBFT_PATH) clean
 
 fclean: clean
@@ -54,3 +55,5 @@ asan:
 	make CC="$(CC) -fsanitize=address" re
 
 .PHONY: all re clean fclean debug asan
+
+-include $(DEP)
