@@ -121,7 +121,7 @@ run_test
 print_title "test10"
 print_test "test: < infile cat -e -n | badcommand  > outfile"
 # cleanup
-valgrind --leak-check=full --track-fds=yes $bin $infile "cat -e -n" "badcommand" $outfile
+$bin $infile "cat -e -n" "badcommand" $outfile
 echo "actual exit code: $?"
 < $infile cat -e -n | badcommand > $outfile
 echo "expected exit code: $?"

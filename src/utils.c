@@ -17,19 +17,19 @@ int	check_infile(char *infile)
 	if (access(infile, R_OK) == 0)
 		return (1);
 	else
-		ft_putendl_fd(strerror(errno), 2);
+		perror(infile);
 	return (0);
 }
 
-void	exit_error(void)
+void	exit_error(char *err)
 {
-	ft_putendl_fd(strerror(errno), 2);
+	perror(err);
 	exit(1);
 }
 
 void	exit_free(char **cmd, char *bin, int status)
 {
-	ft_putendl_fd(strerror(errno), 2);
+	perror(cmd[0]);
 	free_split(cmd);
 	free(bin);
 	exit(status);

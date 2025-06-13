@@ -18,9 +18,9 @@ void	prepare_fd(int *pips, int fd, int idx)
 	{
 		close(pips[0]);
 		if (dup2(fd, 0) < 0)
-			exit_error();
+			exit_error("dup");
 		if (dup2(pips[1], 1) < 0)
-			exit_error();
+			exit_error("dup");
 		close(fd);
 		close(pips[1]);
 	}
@@ -28,9 +28,9 @@ void	prepare_fd(int *pips, int fd, int idx)
 	{
 		close(pips[1]);
 		if (dup2(fd, 1) < 0)
-			exit_error();
+			exit_error("dup");
 		if (dup2(pips[0], 0) < 0)
-			exit_error();
+			exit_error("dup");
 		close(fd);
 		close(pips[0]);
 	}
@@ -47,12 +47,12 @@ pid_t	run_process1(char **av, char **env, int *pips)
 		return (1);
 	child1 = fork();
 	if (child1 == -1)
-		exit_error();
+		exit_error("fork");
 	if (child1 == 0)
 	{
 		fd = open(av[1], O_RDONLY);
 		if (fd < 0)
-			exit_error();
+			exit_error(av[1]);
 		prepare_fd(pips, fd, 1);
 		cmd = build_exec_argv(av[2]);
 		bin = get_binary_path(cmd[0], env);
@@ -73,12 +73,12 @@ pid_t	run_process2(char **av, char **env, int *pips)
 
 	child2 = fork();
 	if (child2 == -1)
-		exit_error();
+		exit_error("fork");
 	if (child2 == 0)
 	{
 		fd = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
-			exit_error();
+			exit_error(av[4]);
 		prepare_fd(pips, fd, 0);
 		cmd = build_exec_argv(av[3]);
 		bin = get_binary_path(cmd[0], env);
@@ -100,7 +100,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 5)
 		return (1);
 	if (pipe(pips) < 0)
-		exit_error();
+		exit_error("pipe");
 	child1 = run_process1(av, env, pips);
 	child2 = run_process2(av, env, pips);
 	close(pips[0]);

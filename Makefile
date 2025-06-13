@@ -34,7 +34,7 @@ $(NAME): $(OBJS)
 $(LIBFT):
 	make -C $(LIBFT_PATH)
 
-test: $(NAME)
+test: all
 	$(TEST_PATH)test
 
 clean:

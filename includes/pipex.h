@@ -22,7 +22,7 @@
 # include <string.h>
 
 char	*get_binary_path(char *cmd, char **env);
-void	exit_error(void);
+void	exit_error(char *err);
 int		check_infile(char *infile);
 char	**build_exec_argv(char *av);
 void	free_split(char **arr);
