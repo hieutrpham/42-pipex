@@ -29,7 +29,14 @@ void	exit_error(char *err)
 
 void	exit_free(char **cmd, char *bin, int status)
 {
-	perror(cmd[0]);
+	if (status == 127)
+	{
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd("command not found", 2);
+	}
+	else
+		perror(cmd[0]);
 	free_split(cmd);
 	free(bin);
 	exit(status);

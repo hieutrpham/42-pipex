@@ -93,19 +93,21 @@ run_test
 print_title "test7"
 print_test "test: < nonexisting ls -l -a -f | cat -e -n > outfile"
 cleanup
-< "nonexist" ls -l -a -f | cat -e -n > $expected_outfile
 $bin "nonexist" "ls -l -a -f" "cat -e -n" $outfile
+echo "expected exit code: $?"
+< "nonexist" ls -l -a -f | cat -e -n > $expected_outfile
+echo "actual exit code: $?"
 run_test
 
 #test 8
 print_title "test8"
 print_test "test: < infile sleep 3 | cat -e -n > nopermission"
 # cleanup
-# time $bin $infile "sleep 3" "cat -e -n" "outfiles/outfile_without_permissions"
-# echo "actual exit code: $?"
-# time < $infile sleep 3 | cat -e -n > "outfiles/outfile_without_permissions"
-# echo "expected exit code: $?"
-# run_test
+time $bin $infile "sleep 3" "cat -e -n" "outfiles/outfile_without_permissions"
+echo "actual exit code: $?"
+time < $infile sleep 3 | cat -e -n > "outfiles/outfile_without_permissions"
+echo "expected exit code: $?"
+run_test
 
 #test 9
 print_title "test9"
