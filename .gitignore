@@ -4,6 +4,7 @@ ft_printf_tester
 *.json
 .cache
 pipex
+*nopermission
 # Prerequisites
 *.d
 

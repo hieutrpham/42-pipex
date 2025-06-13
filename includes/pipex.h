@@ -18,13 +18,11 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <errno.h>
-# include <string.h>
 
 char	*get_binary_path(char *cmd, char **env);
-void	exit_error(char *err);
 int		check_infile(char *infile);
 char	**build_exec_argv(char *av);
 void	free_split(char **arr);
 void	exit_free(char **cmd, char *bin, int status);
+void	exit_error(char *err);
 #endif

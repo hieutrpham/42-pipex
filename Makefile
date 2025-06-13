@@ -7,8 +7,8 @@ LIBFT_PATH = ./libft/
 LIBFT = $(LIBFT_PATH)libft.a
 TEST_PATH = tests/
 
-GREEN    := \033[32m
-RESET    := \033[0m
+GREEN := \033[32m
+RESET := \033[0m
 
 SRC = main.c \
 	  parser.c \

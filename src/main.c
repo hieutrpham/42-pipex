@@ -17,9 +17,9 @@ static void	prepare_fd(int *pips, int fd, int idx)
 	if (idx == 1)
 	{
 		close(pips[0]);
-		if (dup2(fd, 0) < 0)
+		if (dup2(fd, STDIN_FILENO) < 0)
 			exit_error("dup");
-		if (dup2(pips[1], 1) < 0)
+		if (dup2(pips[1], STDOUT_FILENO) < 0)
 			exit_error("dup");
 		close(fd);
 		close(pips[1]);
@@ -27,9 +27,9 @@ static void	prepare_fd(int *pips, int fd, int idx)
 	else
 	{
 		close(pips[1]);
-		if (dup2(fd, 1) < 0)
+		if (dup2(fd, STDOUT_FILENO) < 0)
 			exit_error("dup");
-		if (dup2(pips[0], 0) < 0)
+		if (dup2(pips[0], STDIN_FILENO) < 0)
 			exit_error("dup");
 		close(fd);
 		close(pips[0]);
@@ -98,7 +98,7 @@ int	main(int ac, char **av, char **env)
 	pid_t	child2;
 
 	if (ac != 5)
-		return (1);
+		exit_error("usage");
 	if (pipe(pips) < 0)
 		exit_error("pipe");
 	child1 = run_process1(av, env, pips);
