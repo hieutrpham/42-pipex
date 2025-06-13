@@ -12,7 +12,7 @@
 
 #include "../includes/pipex.h"
 
-void	prepare_fd(int *pips, int fd, int idx)
+static void	prepare_fd(int *pips, int fd, int idx)
 {
 	if (idx == 1)
 	{
@@ -36,7 +36,7 @@ void	prepare_fd(int *pips, int fd, int idx)
 	}
 }
 
-pid_t	run_process1(char **av, char **env, int *pips)
+static pid_t	run_process1(char **av, char **env, int *pips)
 {
 	int		fd;
 	pid_t	child1;
@@ -64,7 +64,7 @@ pid_t	run_process1(char **av, char **env, int *pips)
 	return (child1);
 }
 
-pid_t	run_process2(char **av, char **env, int *pips)
+static pid_t	run_process2(char **av, char **env, int *pips)
 {
 	int		fd;
 	pid_t	child2;
