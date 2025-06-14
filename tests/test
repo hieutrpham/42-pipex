@@ -61,9 +61,9 @@ print_title "test7"
 print_test "test: < nonexisting ls -l -a -f | cat -e -n > outfile"
 cleanup
 $bin "nonexist" "ls -l -a -f" "cat -e -n" $outfile
-echo "expected exit code: $?"
+printf "expected exit code: ${red}$?${reset}\n"
 < "nonexist" ls -l -a -f | cat -e -n > $expected_outfile
-echo "actual exit code: $?"
+printf "actual exit code: ${red}$?${reset}\n"
 run_test
 
 #test 8
@@ -81,9 +81,9 @@ print_title "test9"
 print_test "test: < infile badcommand | cat -e -n > nopermission"
 # cleanup
 $bin $infile "badcommand" "cat -e -n" $NOPER
-echo "actual exit code: $?"
+printf "actual exit code: ${red}$?${reset}\n"
 < $infile badcommand | cat -e -n > $NOPER
-echo "expected exit code: $?"
+printf "expected exit code: ${red}$?${reset}\n"
 run_test
 
 #test 10
@@ -91,16 +91,16 @@ print_title "test10"
 print_test "test: < infile cat -e -n | badcommand  > outfile"
 # cleanup
 $bin $infile "cat -e -n" "badcommand" $outfile
-echo "actual exit code: $?"
+printf "actual exit code: ${red}$?${reset}\n"
 < $infile cat -e -n | badcommand > $outfile
-echo "expected exit code: $?"
+printf "expected exit code: ${red}$?${reset}\n"
 run_test
 
 #test 11
 print_title "test11"
 print_test "test: < nopermission cat -e -n | badcommand  > outfile"
 $bin $NOPER "cat -e -n" "badcommand" $outfile
-echo "actual exit code: $?"
+printf "actual exit code: ${red}$?${reset}\n"
 < $NOPER cat -e -n | badcommand > $outfile
-echo "expected exit code: $?"
+printf "expected exit code: ${red}$?${reset}\n"
 run_test
