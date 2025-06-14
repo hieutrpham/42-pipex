@@ -3,7 +3,7 @@ Building a pipeline in C
 
 This project, "Minipipe," is a fundamental dive into Unix inter-process communication (IPC) using pipes. It replicates the core functionality of shell pipelines (`< infile cmd1 | cmd2 > outfile`), allowing me to execute two commands with their input/output redirected and connected via a pipe.
 
-Through this project, I've gained a solid understanding of low-level system calls essential for process management and IPC.
+This is definitely my favorite project so far because I get to learn in a deeper level how processes work and how data flow through processes using pipes. Through this project, I've gained a solid understanding of low-level system calls essential for process management and IPC.
 
 ## 📚 Concepts Learned & Reinforced
 
