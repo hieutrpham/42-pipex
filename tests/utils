@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+red=$(tput setaf 9)
+cyan=$(tput setaf 39)
+green=$(tput setaf 2)
+blue=$(tput setaf 4)
+pink=$(tput setaf 225)
+reset=$(tput setaf sgr0)
+
+print_title() {
+	printf "${cyan}=====================$1======================${reset}"
+	echo
+}
+
+print_test() {
+	printf "${blue}$1${reset}"
+	echo
+}
+
+print_result() {
+	case $1 in
+		"ok") printf "${green}OK!${reset}";;
+		"ko") printf "${red}KO!${reset}";;
+	esac
+	echo
+}
+
+run_test() {
+	if cmp -s $expected_outfile $outfile 
+	then
+		print_result "ok"
+	else
+		print_result "ko"
+		diff -y $expected_outfile $outfile
+	fi
+}
+
+cleanup() {
+	rm $expected_outfile $outfile
+}
+

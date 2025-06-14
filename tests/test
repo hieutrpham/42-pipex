@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+. tests/utils
+
 bin="./pipex"
 infile="${PWD}/README.md"
 expected_outfile="${PWD}/tests/expected_outfile"
@@ -7,44 +9,6 @@ outfile="${PWD}/tests/outfile"
 NOPER="tests/nopermission"
 touch $NOPER
 chmod 0000 $NOPER
-
-NC="\033[0m"
-CYAN="\033[36m"
-RED="\033[31m"
-GREEN="$(tput setaf 2)"
-YELLOW="\033[33m"
-
-print_title() {
-	printf "${CYAN}=====================$1======================${NC}"
-	echo
-}
-
-print_test() {
-	printf "${YELLOW}$1${NC}"
-	echo
-}
-
-print_result() {
-	case $1 in
-		"ok") printf "${GREEN}OK!${NC}";;
-		"ko") printf "${RED}KO!${NC}";;
-	esac
-	echo
-}
-
-run_test() {
-	if cmp -s $expected_outfile $outfile 
-	then
-		print_result "ok"
-	else
-		print_result "ko"
-		diff -y $expected_outfile $outfile
-	fi
-}
-
-cleanup() {
-	rm $expected_outfile $outfile
-}
 
 #test 1
 print_title "test1"
