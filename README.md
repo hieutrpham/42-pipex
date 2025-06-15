@@ -32,6 +32,11 @@ This is definitely my favorite project so far because I get to learn in a deeper
 * **Valgrind (`--track-fds=yes`)**: Utilizing Valgrind to detect memory leaks and, specifically, file descriptor leaks, which is invaluable for ensuring resource cleanup in complex multi-process programs.
 * **Debugging `execve` failures**: Learning that `fprintf(stderr, "%s", NULL)` leads to segmentation faults, and that `bin` must be checked for `NULL` before passing to `execve`.
 
+### Automated testing using Bash
+* Run `make test` to begin testing
+
+![Test Result](tests/result.png)
+
 ## 🛠️ Functions Used
 
 Here's a list of the primary system calls and standard library functions that are central to this project:
