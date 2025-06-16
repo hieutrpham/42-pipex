@@ -104,3 +104,12 @@ printf "actual exit code: ${red}$?${reset}\n"
 < $NOPER cat -e -n | badcommand > $outfile
 printf "expected exit code: ${red}$?${reset}\n"
 run_test
+
+#test 12
+print_title "test12"
+print_test "test: < infile cat -e -n | ''  > outfile"
+$bin $infile "cat -e -n" "" $outfile
+printf "actual exit code: ${red}$?${reset}\n"
+< $infile cat -e -n | "" > $outfile
+printf "expected exit code: ${red}$?${reset}\n"
+run_test

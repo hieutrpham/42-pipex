@@ -34,9 +34,14 @@ void	exit_free(char **cmd, char *bin, int status)
 {
 	if (status == 127)
 	{
-		ft_putstr_fd(cmd[0], STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putendl_fd("command not found", STDERR_FILENO);
+		if (cmd[0])
+		{
+			ft_putstr_fd(cmd[0], STDERR_FILENO);
+			ft_putstr_fd(": ", STDERR_FILENO);
+			ft_putendl_fd("command not found", STDERR_FILENO);
+		}
+		else
+			ft_putendl_fd("command not found", STDERR_FILENO);
 	}
 	else
 		perror(cmd[0]);
